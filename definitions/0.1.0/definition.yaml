@@ -1,0 +1,18 @@
+---
+runtime: shell
+code: |
+ echo "Hello $message"
+inputProperties:
+  - name: message
+    type: text
+    title: Message
+    placeHolder: Message for greeting
+    defaultValue: Hello Slack
+    bindable: true
+    labelInfo: true
+    labelMessage: This message would be posted to console
+
+outputProperties:
+  - name: status
+    type: label
+    title: Status
