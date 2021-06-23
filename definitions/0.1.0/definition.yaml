@@ -1,18 +1,125 @@
 ---
 runtime: shell
 code: |
- echo "Hello $message"
+  /app/jira-actions $serverUrl $username $password $action $ignoreFailures "$issueIds" $transitionId "$labelsToAdd" "$labelsToRemove" "$componentsToAdd" "$componentsToRemove" "$comment"
+    source /app/output.txt
+    export $(cut -d= -f1 /app/output.txt)
 inputProperties:
-  - name: message
+  - name: serverUrl
     type: text
-    title: Message
-    placeHolder: Message for greeting
-    defaultValue: Hello Slack
+    title: Server URL
+    placeHolder: URL of the Jira server
+    defaultValue: "-"
     bindable: true
     labelInfo: true
-    labelMessage: This message would be posted to console
+    labelMessage: URL of the server
+  - name: username
+    type: text
+    title: Username
+    placeHolder: Jira username
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: Jira Username
+  - name: password
+    type: password
+    title: Password
+    placeHolder: Jira password
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: Jira Password
+  - name: action
+    type: select
+    title: Action name
+    placeHolder: Action name
+    defaultValue: 
+    bindable: true
+    labelInfo: true
+    labelMessage:
+    options:
+       - optionKey : transitionIssues
+         optionValue : Transition issues
+       - optionKey : updateLabelsOnIssues
+         optionValue : Update labels on issues
+       - optionKey : updateComponentsOnIssues
+         optionValue : Update components on issues
+       - optionKey : addCommentOnIssues
+         optionValue : Add comment on issues
+       - optionKey : extractIssueIDsFromText
+         optionValue : Extract issue ids from text
+  - name: ignoreFailures
+    type: checkbox
+    title: Ignore failures?
+    placeHolder: 
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: ignore action failures on individual issues and continue to next
+  - name: issueIds
+    type: text
+    title: Issue IDs
+    placeHolder: 
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: comma separated issue ids
+  - name: transitionId
+    type: text
+    title: Transition ID
+    placeHolder: 
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: internal transition id of jira project
+  - name: labelsToAdd
+    type: text
+    title: Labels to add
+    placeHolder: label1,label2
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: comma separated labels
+  - name: labelsToRemove
+    type: text
+    title: Labels to remove
+    placeHolder: label1,label2
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: comma separated labels
+  - name: componentsToAdd
+    type: text
+    title: Components to add
+    placeHolder: component1,component2
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: comma separated components
+  - name: componentsToRemove
+    type: text
+    title: Components to remove
+    placeHolder: component1,component2
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: comma separated components
+  - name: comment
+    type: textarea
+    title: Comment
+    placeHolder: sample comment
+    defaultValue: "-"
+    bindable: true
+    labelInfo: true
+    labelMessage: comment
 
 outputProperties:
-  - name: status
+  - name: output
     type: label
-    title: Status
+    title: Output
+  - name: outputHTML
+    type: label
+    title: Output HTML
+  - name: outputPrettyText
+    type: label
+    title: Output Pretty Text
